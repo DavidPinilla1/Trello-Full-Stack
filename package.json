@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:front": "cd frontend ; npm start",
-    "start:back": "cd backend ; npm start",
-    "start": "concurrently \"npm run start:front\" \"npm run start:back\""
+    "start:front": "cd ./frontend && npm start",
+    "start:back": "cd ./backend && npm start",
+    "start": "concurrently \"npm run start:front\" \"npm run start:back\"",
+    "postinstall": "cd frontend && npm i && cd ../backend && npm i"
 },
   "author": "jupegarnica",
   "license": "ISC",
