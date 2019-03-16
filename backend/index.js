@@ -1,63 +1,51 @@
-const express = require( 'express' );
+const express = require('express');
 const app = express();
+const fs = require('fs');
+const port = Number(process.argv[2]) || 3000;
+const mongoose = require('mongoose');
 
-const fs = require( 'fs' );
-
-const port = Number( process.argv[ 2 ] ) || 3000;
-
-
-// BODY PARSE TO JSON
-app.use( express.json() );
-
-
-// enable CORS
-app.use( function ( req, res, next ) {
-    res.header( "Access-Control-Allow-Origin", "*" );
-    res.header( "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept" );
+const Task = require('./models/task');
+app.use(express.json());
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
     next();
-} );
+});
+//----------------------------------------Database Conection--------------------------------------//
+mongoose.connect('mongodb+srv://Metroid_300:7hvPxpKlucU8hvLN@fullstack-nxov4.mongodb.net/Tasks?retryWrites=true', {
+        useNewUrlParser: true
+    })
+    .then(() => console.log('Connected to database')).catch((e) => console.log('Connection to MongoDB failed!:( \n' + e))
+//-----------------------------------------------------------------------------------------------//
+app.get('/tasks', (req, res) => {
+    Task.find().then(tasks => res.status(200).json(tasks));
+});
 
-
-app.get( '/tasks', ( req, res ) => {
-
-     const stringJson = fs.readFileSync( './bd.json', 'UTF-8' );
-
-     const data = JSON.parse( stringJson );
-     res.status( 200 ).json( data.tasks );
-
-} );
-
-app.post( '/tasks', ( req, res ) => {
-    if ( req.body.text ) {
-        try {
-            let task = {
-                text: req.body.text,
-                completed: false,
-                id: Date.now(),
-                color: null
-            }
-            // get a parse file
-            const stringJson = fs.readFileSync( './bd.json', 'UTF-8' );
-
-            const data = JSON.parse( stringJson );
-            // add tasks
-            data.tasks.push( task );
-
-            //save to file
-            const newDataString = JSON.stringify( data );
-            fs.writeFileSync( './bd.json', newDataString );
-
-            // response to front
-            res.json( { code: 200 } );
-        } catch (err) {
-            console.error(err.message);
-            res.status(500).json({message:'something went wrong. my fault. sorry'})
-
-        }
-    } else {
-        res.status(400).json({message:'NO TEXT? REALLY? THINK TWICE'})
+app.post('/tasks', (req, res) => {
+    const task = new Task({
+        title: req.body.title,
+        content: null,
+        color: null,
+        completed: false
+    })
+    task.save((err, task) => {
+        if (err) console.error(err)
+        res.status(201).json({
+            success: true,
+            task: task,
+            message: "Task added successfully"
+        })
+    })
+});
+app.delete('/tasks/:id', (req, res) => {
+    try {
+        console.log(req.params.id)
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({
+            message: 'Something went wrong. My apologies'
+        })
     }
-
-} );
-
-app.listen( port, () => console.log( 'Servidor levantado en ' + port ) );
+});
+app.listen(port, () => console.log('Servidor levantado en ' + port));
