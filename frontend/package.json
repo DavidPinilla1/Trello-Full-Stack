@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "live-server": "^1.2.1"
+  },
+  "dependencies": {
+    "vanilla-picker": "^2.7.2"
   }
 }

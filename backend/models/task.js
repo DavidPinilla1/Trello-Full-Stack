@@ -6,9 +6,7 @@ const taskSchema=mongoose.Schema({
         type:String,
         required:true,
     },
-    content:{
-        type:String,
-    },
+    content:[{ body: String, date: Date }],
     color:{
         type:String,
     },

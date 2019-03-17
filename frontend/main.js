@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Declarations
+
     const baseApiUrl = 'http://localhost:3000';
     const getTaskFromAPIRest = () => {
         // GET to /tasks
@@ -9,12 +10,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 appendTasks(tasks);
             })
             .catch(console.error)
+
     }
     const appendTasks = tasksArray => {
-        let tasksSection = document.querySelector('main');
+        let tasksdiv = document.querySelector('main');
         tasksArray.forEach(task => {
             const taskNode = createTaskNode(task);
-            tasksSection.appendChild(taskNode);
+            tasksdiv.appendChild(taskNode);
+            new Picker({
+                parent: document.querySelector(`[data-id="${task._id}"]`),
+                popup:  "botom",
+                onChange: function (color) {
+                    let rgba=''
+                    color._rgba.forEach((item)=>{
+                        rgba+=','+item;
+                    })
+                    console.log(task._id)
+                    updateToBackend({
+                        _id:task._id,
+                        color: `rgba(${rgba.slice(1)})`
+                    })
+                    document.querySelector(`[data-id="${task._id}"]`).style.borderColor = `rgba(${rgba.slice(1)})`
+                }
+            })
         })
     }
     const createTaskNode = taskObj => {
@@ -23,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
         addRemoveListener(taskNode);
         addCompleteListener(taskNode);
         addTitleListener(taskNode);
-        addColorListener(taskNode);
         return taskNode;
     }
     let createTemplateHtmlString = ({
@@ -34,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
             completed,
         }) =>
         `<div class="task ${completed ? 'completed': ''}" data-id="${_id}" style="border-color: ${color}">
-            <div class="text">${title}</div><input type="hidden" class="title"/><input class="colorInput" type="color" value="${color}"><button class="complete">Complete</button>
+            <div class="text">${title}</div><input type="hidden" class="title"/><button class="complete">Complete</button>
             <button class="remove">Remove</button>
         </div>`
     let createNodeFromString = string => {
@@ -52,29 +69,17 @@ document.addEventListener('DOMContentLoaded', function () {
         node.querySelector('.complete').addEventListener('click', event => {
             node.classList.toggle('completed')
             updateToBackend({
-                _id:node.getAttribute("data-id"),
-                title:node.querySelector('.text').innerHTML,
+                _id: node.getAttribute("data-id"),
+                title: node.querySelector('.text').innerHTML,
                 color: node.style.borderColor,
-                completed:node.getAttribute("class").endsWith('completed')})
+                completed: node.getAttribute("class").endsWith('completed')
+            })
         })
     }
     let addTitleListener = node => {
         node.querySelector('.text').addEventListener('click', event => {
             node.querySelector('.text').remove()
-            console.log(node.querySelector('.title').setAttribute("type","text"))
-        })
-    } 
-    let addColorListener = node => {
-        node.querySelector('.colorInput').addEventListener('change', event => {
-            console.log(event.target.value)
-            console.log(node.querySelector('.colorInput'))
-            node.style.borderColor=event.target.value;
-            updateToBackend({
-                _id:node.getAttribute("data-id"),
-                title:node.querySelector('.text').innerHTML,
-                color: event.target.value,
-                completed:node.getAttribute("class").endsWith('completed')
-            })
+            node.querySelector('.title').setAttribute("type", "text");
         })
     }
     let saveTaskToBackend = title => {
@@ -132,13 +137,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 let newTaskNode = createNodeFromString(newTaskHtmlString)
                 document.querySelector('main').appendChild(newTaskNode)
+
                 event.target.value = '';
+
                 addRemoveListener(newTaskNode);
                 addCompleteListener(newTaskNode);
                 addTitleListener(newTaskNode);
-                addColorListener(newTaskNode)
+
+                new Picker({
+                    parent: document.querySelector(`[data-id="${res.task._id}"]`),
+                    popup: false,
+                    onChange: function (color) {
+                        let rgba=''
+                        color._rgba.forEach((item)=>{
+                            rgba+=','+item;
+                        })
+                        updateToBackend({
+                            _id:res.task._id,
+                            color: `rgba(${rgba.slice(1)})`
+                        })
+                        
+                    document.querySelector(`[data-id="${res.task._id}"]`).style.borderColor = `rgba(${rgba.slice(1)})`
+                    }
+                })
             })
         }
     })
     getTaskFromAPIRest();
-})
+});

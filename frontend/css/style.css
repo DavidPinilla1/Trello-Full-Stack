@@ -31,6 +31,7 @@ main {
 }
 
 .task {
+  margin: 0.5em;
   padding: 1em;
   background: linear-gradient(0deg, #003068 0%, 25%, #6bb0ff 100%);
   color: white;
