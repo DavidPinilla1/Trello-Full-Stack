@@ -1,123 +1,144 @@
-document.addEventListener( 'DOMContentLoaded', function () {
-
+document.addEventListener('DOMContentLoaded', function () {
     // Declarations
-    ///////////////
-
     const baseApiUrl = 'http://localhost:3000';
     const getTaskFromAPIRest = () => {
-
         // GET to /tasks
-        fetch( baseApiUrl + '/tasks' )
-            .then( response => response.json() )
-            .then( tasks => {
-                appendTasks( tasks );
-            } )
-            .catch( console.error )
-
+        fetch(baseApiUrl + '/tasks')
+            .then(response => response.json())
+            .then(tasks => {
+                appendTasks(tasks);
+            })
+            .catch(console.error)
     }
-
     const appendTasks = tasksArray => {
-        let tasksSection = document.querySelector( 'main' );
-
-        tasksArray.forEach( task => {
-
-            const taskNode = createTaskNode( task );
-            tasksSection.appendChild( taskNode );
-
-        } )
+        let tasksSection = document.querySelector('main');
+        tasksArray.forEach(task => {
+            const taskNode = createTaskNode(task);
+            tasksSection.appendChild(taskNode);
+        })
     }
-
     const createTaskNode = taskObj => {
-
-        // creat html string from value text
-        let newTaskHtmlString = createTemplateHtmlString( taskObj )
-        // console.log(newTaskHtmlString);
-
-        // node creation from html string
-        let taskNode = createNodeFromString( newTaskHtmlString )
-        // console.log(taskNode)
-
-        // add listeners
-        addRemoveListener( taskNode );
-        addCompleteListener( taskNode );
-
+        let newTaskHtmlString = createTemplateHtmlString(taskObj)
+        let taskNode = createNodeFromString(newTaskHtmlString)
+        addRemoveListener(taskNode);
+        addCompleteListener(taskNode);
+        addTitleListener(taskNode);
+        addColorListener(taskNode);
         return taskNode;
-
     }
-
-    let createTemplateHtmlString = ( { text, color, id, completed } ) =>
-        `<div class="task ${completed ? 'completed': ''}" data-id="${id}" style="border-color: ${color}">
-            <div class="text">${text}</div>
-            <button class="remove">remove</button>
-            <button class="complete">complete</button>
+    let createTemplateHtmlString = ({
+            _id,
+            title,
+            content,
+            color,
+            completed,
+        }) =>
+        `<div class="task ${completed ? 'completed': ''}" data-id="${_id}" style="border-color: ${color}">
+            <div class="text">${title}</div><input type="hidden" class="title"/><input class="colorInput" type="color" value="${color}"><button class="complete">Complete</button>
+            <button class="remove">Remove</button>
         </div>`
     let createNodeFromString = string => {
-        let divNode = document.createElement( 'div' );
+        let divNode = document.createElement('div');
         divNode.innerHTML = string;
         return divNode.firstChild;
     }
     let addRemoveListener = node => {
-        node.querySelector( '.remove' ).addEventListener( 'click', event => {
-            // event.target.parentNode.remove();
+        node.querySelector('.remove').addEventListener('click', event => {
             node.remove();
-        } )
+            deleteTaskToBackend(node.getAttribute("data-id"))
+        })
     }
     let addCompleteListener = node => {
-        node.querySelector( '.complete' ).addEventListener( 'click', event => {
-            node.classList.toggle( 'completed' )
-        } )
+        node.querySelector('.complete').addEventListener('click', event => {
+            node.classList.toggle('completed')
+            updateToBackend({
+                _id:node.getAttribute("data-id"),
+                title:node.querySelector('.text').innerHTML,
+                color: node.style.borderColor,
+                completed:node.getAttribute("class").endsWith('completed')})
+        })
     }
-
-    let saveTaskToBackend = text => {
-        // GET to /tasks
-        return fetch( baseApiUrl + '/tasks', {
+    let addTitleListener = node => {
+        node.querySelector('.text').addEventListener('click', event => {
+            node.querySelector('.text').remove()
+            console.log(node.querySelector('.title').setAttribute("type","text"))
+        })
+    } 
+    let addColorListener = node => {
+        node.querySelector('.colorInput').addEventListener('change', event => {
+            console.log(event.target.value)
+            console.log(node.querySelector('.colorInput'))
+            node.style.borderColor=event.target.value;
+            updateToBackend({
+                _id:node.getAttribute("data-id"),
+                title:node.querySelector('.text').innerHTML,
+                color: event.target.value,
+                completed:node.getAttribute("class").endsWith('completed')
+            })
+        })
+    }
+    let saveTaskToBackend = title => {
+        return fetch(baseApiUrl + '/tasks', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify( { text } )
-            } )
-            .then( console.log )
-            .then( response => response.json() )
-            .then( console.log )
-
-            .catch( console.error )
-    }
-    // // add tasks
-    let inputNode = document.querySelector( 'header input' );
-
-    inputNode.addEventListener( 'keyup', function ( event ) {
-        if ( event.keyCode === 13 ) {
-            //get value from input
-            let newTaskText = event.target.value;
-
-
-            saveTaskToBackend( newTaskText ).then( () => {
-                 // creat html string from value text
-                 let newTaskHtmlString = createTemplateHtmlString( { text: newTaskText } )
-                 // console.log(newTaskHtmlString);
-
-                 // node creation from html string
-                 let newTaskNode = createNodeFromString( newTaskHtmlString )
-                 // console.log(newTaskNode)
-
-                 // node inject to DOM in main
-                 document.querySelector( 'main' ).appendChild( newTaskNode )
-
-                 // clean value
-                 event.target.value = '';
-
-                 addRemoveListener( newTaskNode );
-                 addCompleteListener( newTaskNode );
+                body: JSON.stringify({
+                    title
+                })
             })
-
-
+            .then(response => (response.json()))
+            .then(res => res)
+            .catch(console.error)
+    }
+    let deleteTaskToBackend = id => {
+        fetch(baseApiUrl + '/tasks/' + id, {
+                method: 'DELETE',
+            })
+            .then(response => response)
+            .catch(console.error)
+    }
+    let updateToBackend = ({
+        _id,
+        title,
+        color,
+        completed,
+    }) => {
+        fetch(baseApiUrl + '/tasks/' + _id, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    _id,
+                    title,
+                    color,
+                    completed
+                })
+            })
+            .then(response => response)
+            .catch(console.error)
+    }
+    let inputNode = document.querySelector('header input');
+    inputNode.addEventListener('keyup', function (event) {
+        if (event.keyCode === 13) {
+            let title = event.target.value;
+            saveTaskToBackend(title).then(res => {
+                let newTaskHtmlString = createTemplateHtmlString({
+                    _id: res.task._id,
+                    title: title,
+                })
+                let newTaskNode = createNodeFromString(newTaskHtmlString)
+                document.querySelector('main').appendChild(newTaskNode)
+                event.target.value = '';
+                addRemoveListener(newTaskNode);
+                addCompleteListener(newTaskNode);
+                addTitleListener(newTaskNode);
+                addColorListener(newTaskNode)
+            })
         }
-    } )
-
-    // Encender la falla
-    ////////////////////
+    })
     getTaskFromAPIRest();
-
-} )
+})

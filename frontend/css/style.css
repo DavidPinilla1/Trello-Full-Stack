@@ -1,0 +1,69 @@
+/* reset */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 1.2em;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #020024;
+  background: linear-gradient(0deg, #001833 0%, 45%, #3f88f5 100%);
+}
+
+header {
+  background: rgba(0, 40, 73, 0.26);
+  display: flex;
+  justify-content: center;
+  padding: 2em;
+}
+main {
+  flex: 1;
+  color: white;
+  padding: 2em;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap-reverse;
+  align-items: flex-end;
+}
+
+.task {
+  padding: 1em;
+  background: linear-gradient(0deg, #003068 0%, 25%, #6bb0ff 100%);
+  color: white;
+  max-width: 300px;
+  border-radius: 0.7em;
+  border-width: 0.1em;
+  border-style: solid;
+}
+.task .text {
+  font-size: 1.5em;
+  padding: 0.3em;
+}
+.task .title {
+  all: unset;
+}
+.task button {
+  margin: 0.2em;
+  border: 0.2em black;
+  padding: 0.3em 0.6em;
+  border-radius: 0.3em;
+}
+.task .remove {
+  background: linear-gradient(0deg, #810000 0%, 25%, #ff4141 100%);
+}
+.task .complete {
+  background: linear-gradient(0deg, #094d00 0%, 25%, #7aff90 100%);
+}
+
+.completed {
+  opacity: 0.5;
+}
+.completed .text {
+  text-decoration: line-through;
+}
+
+/*# sourceMappingURL=style.css.map */

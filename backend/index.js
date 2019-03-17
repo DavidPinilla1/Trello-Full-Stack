@@ -33,19 +33,41 @@ app.post('/tasks', (req, res) => {
         if (err) console.error(err)
         res.status(201).json({
             success: true,
-            task: task,
+            task,
             message: "Task added successfully"
         })
     })
 });
 app.delete('/tasks/:id', (req, res) => {
     try {
-        console.log(req.params.id)
+        Task.findByIdAndDelete(req.params.id, (err, task) => {
+            if (err) res.status(400).send(err)
+            res.status(200).json({
+                message:'item successfully deleted.',
+                task
+            })
+        })
     } catch (err) {
         console.error(err.message);
         res.status(500).json({
-            message: 'Something went wrong. My apologies'
+            message: 'Something went wrong. My apologies.'
         })
     }
 });
+app.put('/tasks/:id',(req, res) => {
+    try {
+        Task.findByIdAndUpdate(req.params.id,req.body,(err,task)=>{
+            if(err)console.error(err)
+            res.status(200).json({
+                message:'item uccessfully updated.',
+                task
+            })
+        })
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({
+            message: 'Something went wrong. My apologies.'
+        })
+    }
+})
 app.listen(port, () => console.log('Servidor levantado en ' + port));
