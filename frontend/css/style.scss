@@ -6,7 +6,7 @@
 }
 
 body {
-    font-size: 1.2em;
+    font-size: 1.5em;
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
     display: flex;
@@ -24,7 +24,8 @@ header {
 
     input {
         all: unset;
-        color: white;
+        color: black;
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.164) 0%, 30%, rgba(255, 255, 255, 0.26) 100%);
         margin: 0.3em;
         padding: 0.3em;
     }
@@ -43,8 +44,8 @@ main {
 
 .task {
     margin: 0.5em;
-    padding: 1em;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.89) 0%, 30%, rgba(255, 255, 255, 0.767) 100%);
+    padding: 0.5em;
+    background: rgba(161, 161, 161, 0.884);
     color: black;
     min-width: 20em;
     border-radius: 0.7em;
@@ -55,38 +56,23 @@ main {
     align-items: center;
 
     .text {
-        font-size: 1.5em;
         padding: 0.3em;
-
-    }
-
-    .title {
-        all:unset;
-        font-size: 1.5em;
-        width: 150px;
     }
     
+    img {
+        height: 3em;
+    }
     .buttons {
         order:1;
         display: flex;
         margin: 0.2em;
         padding: 0.3em 0.6em;
-
-        .remove {
-            img {
-                height: 3em;
-            }
-        }
-    
-        .complete {
-            img {
-                height: 3em;
-            }
-        }
     }
 
 }
-
+.task:hover{
+    opacity: 100%;
+}
 .completed {
     .text {
         text-decoration: line-through;

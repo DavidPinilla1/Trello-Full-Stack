@@ -23,7 +23,7 @@ In this project we are going to develop our own trello based app using Express (
 - [x] complete task in DOM
 - [x] PUT /tasks/:id
 - [x] edit color in front and save to back
-- [ ] edit task text in front and save to back
+- [x] edit task text in front and save to back
 
 ## Extra Features
 
