@@ -19,15 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
             tasksdiv.appendChild(taskNode);
             new Picker({
                 parent: document.querySelector(`[data-id="${task._id}"]`),
-                popup:  "botom",
+                popup: false,
                 onChange: function (color) {
-                    let rgba=''
-                    color._rgba.forEach((item)=>{
-                        rgba+=','+item;
+                    let rgba = ''
+                    color._rgba.forEach((item) => {
+                        rgba += ',' + item;
                     })
-                    console.log(task._id)
                     updateToBackend({
-                        _id:task._id,
+                        _id: task._id,
                         color: `rgba(${rgba.slice(1)})`
                     })
                     document.querySelector(`[data-id="${task._id}"]`).style.borderColor = `rgba(${rgba.slice(1)})`
@@ -51,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function () {
             completed,
         }) =>
         `<div class="task ${completed ? 'completed': ''}" data-id="${_id}" style="border-color: ${color}">
-            <div class="text">${title}</div><input type="hidden" class="title"/><button class="complete">Complete</button>
-            <button class="remove">Remove</button>
+            <div class="text" contenteditable>${title}</div><div class=buttons><div class="complete"><img src="./images/completed.png"/></div>
+            <div class="remove"><img src="./images/delete-512.png"/></div></div>
         </div>`
     let createNodeFromString = string => {
         let divNode = document.createElement('div');
@@ -77,9 +76,18 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     }
     let addTitleListener = node => {
-        node.querySelector('.text').addEventListener('click', event => {
-            node.querySelector('.text').remove()
-            node.querySelector('.title').setAttribute("type", "text");
+        node.querySelector('.text').addEventListener('blur', event => {
+            let title = node.querySelector('.text').innerHTML;
+            console.log(event.target.value,title)
+            updateToBackend({
+                _id: node.getAttribute("data-id"),
+                title: title
+            })
+            // node.querySelector('.title').setAttribute("type", "text")
+            // node.querySelector('.title').addEventListener('keyup',event=>{
+            //     node.querySelector('.title').value=title;
+            //     if (event.keyCode === 13)  console.log(event.target.value)
+            // })
         })
     }
     let saveTaskToBackend = title => {
@@ -148,16 +156,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     parent: document.querySelector(`[data-id="${res.task._id}"]`),
                     popup: false,
                     onChange: function (color) {
-                        let rgba=''
-                        color._rgba.forEach((item)=>{
-                            rgba+=','+item;
+                        let rgba = ''
+                        color._rgba.forEach((item) => {
+                            rgba += ',' + item;
                         })
                         updateToBackend({
-                            _id:res.task._id,
+                            _id: res.task._id,
                             color: `rgba(${rgba.slice(1)})`
                         })
-                        
-                    document.querySelector(`[data-id="${res.task._id}"]`).style.borderColor = `rgba(${rgba.slice(1)})`
+
+                        document.querySelector(`[data-id="${res.task._id}"]`).style.borderColor = `rgba(${rgba.slice(1)})`
                     }
                 })
             })

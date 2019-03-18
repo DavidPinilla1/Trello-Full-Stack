@@ -1,4 +1,5 @@
 /* reset */
+@import url("https://fonts.googleapis.com/css?family=Ubuntu:400,700");
 * {
   box-sizing: border-box;
 }
@@ -6,20 +7,27 @@
 body {
   font-size: 1.2em;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Ubuntu", sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #020024;
-  background: linear-gradient(0deg, #001833 0%, 45%, #3f88f5 100%);
+  background-image: url("../images/chess-king-1372062558Apo.jpg");
+  background-size: cover;
 }
 
 header {
-  background: rgba(0, 40, 73, 0.26);
+  background: rgba(255, 255, 255, 0.089);
   display: flex;
   justify-content: center;
-  padding: 2em;
+  padding: 1.5em;
 }
+header input {
+  all: unset;
+  color: white;
+  margin: 0.3em;
+  padding: 0.3em;
+}
+
 main {
   flex: 1;
   color: white;
@@ -33,12 +41,15 @@ main {
 .task {
   margin: 0.5em;
   padding: 1em;
-  background: linear-gradient(0deg, #003068 0%, 25%, #6bb0ff 100%);
-  color: white;
-  max-width: 300px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.89) 0%, 30%, rgba(255, 255, 255, 0.767) 100%);
+  color: black;
+  min-width: 20em;
   border-radius: 0.7em;
-  border-width: 0.1em;
+  border-width: 0.2em;
   border-style: solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .task .text {
   font-size: 1.5em;
@@ -46,22 +57,24 @@ main {
 }
 .task .title {
   all: unset;
+  font-size: 1.5em;
+  width: 150px;
 }
-.task button {
+.task .buttons {
+  order: 1;
+  display: flex;
   margin: 0.2em;
-  border: 0.2em black;
   padding: 0.3em 0.6em;
-  border-radius: 0.3em;
 }
-.task .remove {
-  background: linear-gradient(0deg, #810000 0%, 25%, #ff4141 100%);
+.task .buttons .remove img {
+  height: 3em;
 }
-.task .complete {
-  background: linear-gradient(0deg, #094d00 0%, 25%, #7aff90 100%);
+.task .buttons .complete img {
+  height: 3em;
 }
 
 .completed {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 .completed .text {
   text-decoration: line-through;

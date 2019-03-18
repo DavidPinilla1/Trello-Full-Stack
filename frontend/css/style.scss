@@ -1,4 +1,5 @@
 /* reset */
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,700');
 
 * {
     box-sizing: border-box;
@@ -7,21 +8,25 @@
 body {
     font-size: 1.2em;
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: rgb(2, 0, 36);
-    background: linear-gradient(0deg, rgb(0, 24, 51) 0%, 45%, rgb(63, 136, 245) 100%);
+    background-image: url("../images/chess-king-1372062558Apo.jpg");
+    background-size: cover;
 }
 
 header {
-    background: rgba(0, 40, 73, 0.26);
+    background: rgba(255, 255, 255, 0.089);
     display: flex;
     justify-content: center;
-    padding: 2em;
-    input{
-        
+    padding: 1.5em;
+
+    input {
+        all: unset;
+        color: white;
+        margin: 0.3em;
+        padding: 0.3em;
     }
 }
 
@@ -37,41 +42,54 @@ main {
 }
 
 .task {
-    margin:0.5em;
+    margin: 0.5em;
     padding: 1em;
-    background: linear-gradient(0deg, rgb(0, 48, 104) 0%, 25%, rgb(107, 176, 255) 100%);
-    color: white;
-    max-width: 300px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.89) 0%, 30%, rgba(255, 255, 255, 0.767) 100%);
+    color: black;
+    min-width: 20em;
     border-radius: 0.7em;
-    border-width: 0.1em;
+    border-width: 0.2em;
     border-style: solid;
-    .text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .text {
         font-size: 1.5em;
-        padding:0.3em;
-        
+        padding: 0.3em;
+
     }
-    .title{
+
+    .title {
         all:unset;
+        font-size: 1.5em;
+        width: 150px;
     }
-    button{
+    
+    .buttons {
+        order:1;
+        display: flex;
         margin: 0.2em;
-        border: 0.2em black;
         padding: 0.3em 0.6em;
-        border-radius: 0.3em;
-    }
+
+        .remove {
+            img {
+                height: 3em;
+            }
+        }
     
-    .remove{
-        background: linear-gradient(0deg, rgb(129, 0, 0) 0%, 25%, rgb(255, 65, 65) 100%);
+        .complete {
+            img {
+                height: 3em;
+            }
+        }
     }
-    .complete{
-        background: linear-gradient(0deg, rgb(9, 77, 0) 0%, 25%, rgb(122, 255, 144) 100%);
-    
-    }
+
 }
 
 .completed {
-    .text{
+    .text {
         text-decoration: line-through;
     }
-    opacity: 0.5;
+    opacity: 0.4;
 }
