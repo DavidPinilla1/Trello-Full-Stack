@@ -16,7 +16,7 @@ In this project we are going to develop our own trello based app using Express (
 - [x] backend en express con dos endpoints
 - [x] POST /tasks
 - [x] GET /tasks
-- [x] Load tasks from frontend
+- [x] Load tasks from front-end
 - [x] Save new task from frontend to DB
 - [x] Delete task from DOM
 - [x] DELETE /tasks/:id
@@ -29,3 +29,4 @@ In this project we are going to develop our own trello based app using Express (
 
 - [x] MongoDB added as database
 - [x] Task mongoose model defined
+- [x] Color picker library used to select colors in the frontend

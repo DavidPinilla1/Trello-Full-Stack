@@ -16,11 +16,15 @@ document.addEventListener('DOMContentLoaded', function () {
         let tasksdiv = document.querySelector('main');
         tasksArray.forEach(task => {
             const taskNode = createTaskNode(task);
-            tasksdiv.appendChild(taskNode);
+            if(taskNode.classList.contains('completed')){
+                document.querySelector('.done').appendChild(taskNode)
+            }else{
+                tasksdiv.appendChild(taskNode);
+            }
             new Picker({
                 parent: document.querySelector(`[data-id="${task._id}"] .color`),
                 popup: "bottom",
-                onChange: color =>{
+                onChange: color => {
                     let rgba = ''
                     color._rgba.forEach((item) => {
                         rgba += ',' + item;
@@ -50,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             completed,
         }) =>
         `<div class="task ${completed ? 'completed': ''}" data-id="${_id}" style="border-color: ${color}">
-            <div class="text" contenteditable>${title}</div><div class=buttons><div class="color"><img class="color" src="./images/color.png"/></div><div class="complete"><img src="./images/completed.png"/></div>
+            <div class="text" contenteditable spellcheck="false">${title}</div><div class=buttons><div class="color"><img class="color" src="./images/color.png"/></div><div class="complete"><img src="./images/completed.png"/></div>
             <div class="remove"><img src="./images/delete-512.png"/></div></div>
         </div>`
     let createNodeFromString = string => {
@@ -69,10 +73,14 @@ document.addEventListener('DOMContentLoaded', function () {
             node.classList.toggle('completed')
             updateToBackend({
                 _id: node.getAttribute("data-id"),
-                title: node.querySelector('.text').innerHTML,
-                color: node.style.borderColor,
                 completed: node.getAttribute("class").endsWith('completed')
             })
+            console.log(node.classList.contains('completed'))
+            if(node.classList.contains('completed')){
+                document.querySelector('.done').appendChild(node)
+            }else{
+                document.querySelector('main').appendChild(node);
+            }
         })
     }
     let addTitleListener = node => {
@@ -139,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 let newTaskNode = createNodeFromString(newTaskHtmlString)
                 document.querySelector('main').appendChild(newTaskNode)
-
+                console.log(newTaskNode)
                 event.target.value = '';
 
                 addRemoveListener(newTaskNode);
@@ -147,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 addTitleListener(newTaskNode);
 
                 new Picker({
-                    parent: document.querySelector(`[data-id="${res.task._id}"]`),
+                    parent: document.querySelector(`[data-id="${res.task._id}"] .color`),
                     popup: "botom",
                     onChange: function (color) {
                         let rgba = ''

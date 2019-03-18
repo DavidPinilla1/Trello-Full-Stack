@@ -6,7 +6,7 @@
   "scripts": {
     "start": "live-server ."
   },
-  "author": "jupegarnica",
+  "author": "David Pinilla",
   "license": "ISC",
   "devDependencies": {
     "live-server": "^1.2.1"

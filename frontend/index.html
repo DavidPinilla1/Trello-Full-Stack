@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" 
+    type="image/png" 
+    href="./images/favicon.png">
     <title>Tareas Full Stack</title>
     <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/style.css">
@@ -14,12 +16,16 @@
 
 <body>
     <header>
-        <input type="text" placeholder="add new task" onfocus="this.placeholder = ''">
+        <input type="text" placeholder="Add a new task" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Add a new task'">
 
     </header>
-    <main>
-
+    <section class="board">
+    <main><h2>Product BackLog</h2>
     </main>
+    <section class="doing"><h2>To do</h2></section>
+    <section class="doing"><h2>Doing</h2></section>
+    <section class="done"><h2>Done</h2></section>
+    </section>
 </body>
 
 </html>

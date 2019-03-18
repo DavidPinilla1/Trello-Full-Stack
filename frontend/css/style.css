@@ -23,29 +23,77 @@ header {
 }
 header input {
   all: unset;
-  color: black;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.164) 0%, 30%, rgba(255, 255, 255, 0.26) 100%);
+  color: #ffbbf6;
+  background: linear-gradient(0deg, rgba(27, 0, 19, 0.164) 0%, 30%, rgba(255, 105, 243, 0.281) 100%);
   margin: 0.3em;
   padding: 0.3em;
 }
 
-main {
-  flex: 1;
-  color: white;
-  padding: 2em;
+.board {
+  display: flex;
+  flex-direction: row;
+}
+@media (max-width: 1200px) {
+  .board {
+    margin: 1em;
+    flex-direction: column;
+  }
+}
+.board ::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 1em;
+  background-color: rgba(173, 5, 165, 0.267);
+}
+.board ::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background-color: rgba(255, 65, 255, 0.774);
+  background-image: -webkit-linear-gradient(90deg, transparent, rgba(41, 0, 33, 0.822) 50%, transparent, transparent);
+}
+.board section,
+.board main {
+  margin: 0.4em;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  border: 0.12em #ff40ff3d solid;
+  background-color: rgba(43, 0, 46, 0.637);
+  flex: 1 25%;
+  color: #ffa1db;
   display: flex;
   justify-content: center;
   flex-wrap: wrap-reverse;
   align-items: flex-end;
+  align-content: flex-end;
+  height: 100%;
+  max-height: 83vh;
+  overflow-y: auto;
+}
+.board section h2,
+.board main h2 {
+  position: sticky;
+  top: 0;
+  all: unset;
+  font-size: 1.5em;
+  padding: 0.5em;
+  border-radius: 0.4em;
+  background-color: rgba(17, 0, 16, 0.801);
+  order: 1;
+  width: 100%;
+}
+.board .done .completed {
+  order: -1;
+  opacity: 0.6;
+}
+.board .done .completed .text {
+  text-decoration: line-through;
 }
 
 .task {
-  margin: 0.5em;
+  margin: 1em;
   padding: 0.5em;
-  background: rgba(161, 161, 161, 0.884);
-  color: black;
-  min-width: 20em;
-  border-radius: 0.7em;
+  background: rgba(37, 0, 48, 0.644);
+  color: #ffb8f0;
+  min-width: 16em;
+  border-radius: 0.4em;
   border-width: 0.2em;
   border-style: solid;
   display: flex;
@@ -53,9 +101,33 @@ main {
   align-items: center;
 }
 .task .text {
-  padding: 0.3em;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  max-width: 8em;
+}
+.task .text:focus {
+  outline: 0px solid transparent;
+}
+.task .text::after {
+  content: "";
+  border-radius: 1em;
+  align-items: center;
+  display: block;
+  height: 0.2em;
+  width: 0;
+  background-color: #ffb0ff;
+  transition: all ease-in-out 500ms;
+}
+.task .text:focus::after {
+  margin-top: 0.2em;
+  border: 0;
+  width: 100%;
 }
 .task img {
+  height: 2em;
+  margin: 0.2em;
+}
+.task img:active {
   height: 3em;
 }
 .task .buttons {
@@ -65,12 +137,8 @@ main {
   padding: 0.3em 0.6em;
 }
 
-.task:hover {
-  opacity: 100%;
-}
-
 .completed {
-  opacity: 0.4;
+  order: -1;
 }
 .completed .text {
   text-decoration: line-through;
