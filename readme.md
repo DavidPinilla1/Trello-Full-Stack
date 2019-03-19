@@ -30,3 +30,4 @@ In this project we are going to develop our own trello based app using Express (
 - [x] MongoDB added as database
 - [x] Task mongoose model defined
 - [x] Color picker library used to select colors in the frontend
+- [x] To Do, Doing and Done columns added

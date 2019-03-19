@@ -3,9 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" 
-    type="image/png" 
-    href="./images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./images/favicon.png">
     <title>Tareas Full Stack</title>
     <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/style.css">
@@ -20,11 +19,24 @@
 
     </header>
     <section class="board">
-    <main><h2>Product BackLog</h2>
-    </main>
-    <section class="doing"><h2>To do</h2></section>
-    <section class="doing"><h2>Doing</h2></section>
-    <section class="done"><h2>Done</h2></section>
+        <section class="porductBackLog">
+            <h2>Product BackLog</h2>
+            <main></main>
+        </section>
+        <section class="toDo" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2>To do</h2>
+            <div class="toDoTasks"></div>
+        </section>
+        <section class="doing" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2>Doing</h2>
+            <div class="inProcess">
+
+            </div>
+        </section>
+        <section class="done">
+            <h2>Done</h2>
+            <div class="finished"></div>
+        </section>
     </section>
 </body>
 

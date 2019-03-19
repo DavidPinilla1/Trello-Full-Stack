@@ -9,7 +9,7 @@
     "start": "concurrently \"npm run start:front\" \"npm run start:back\"",
     "postinstall": "cd frontend && npm i && cd ../backend && npm i"
 },
-  "author": "jupegarnica",
+  "author": "David Pinilla",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^4.1.0"

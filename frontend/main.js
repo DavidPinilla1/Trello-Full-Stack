@@ -1,3 +1,18 @@
+
+    function allowDrop(ev) {
+        ev.preventDefault()
+    }
+
+    let drag=(ev)=> {
+      //  console.log(ev.target)
+        ev.dataTransfer.setData("id", ev.target.getAttribute("data-id"));
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("id");
+        ev.target.appendChild(document.querySelector(`[data-id="${data}"] `));
+    }
 document.addEventListener('DOMContentLoaded', function () {
     // Declarations
 
@@ -16,9 +31,9 @@ document.addEventListener('DOMContentLoaded', function () {
         let tasksdiv = document.querySelector('main');
         tasksArray.forEach(task => {
             const taskNode = createTaskNode(task);
-            if(taskNode.classList.contains('completed')){
-                document.querySelector('.done').appendChild(taskNode)
-            }else{
+            if (taskNode.classList.contains('completed')) {
+                document.querySelector('.finished').appendChild(taskNode)
+            } else {
                 tasksdiv.appendChild(taskNode);
             }
             new Picker({
@@ -46,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         addTitleListener(taskNode);
         return taskNode;
     }
+
     let createTemplateHtmlString = ({
             _id,
             title,
@@ -53,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
             color,
             completed,
         }) =>
-        `<div class="task ${completed ? 'completed': ''}" data-id="${_id}" style="border-color: ${color}">
+        `<div class="task ${completed ? 'completed': ''}" data-id="${_id}" style="border-color: ${color}" draggable="true" ondragstart="drag(event)">
             <div class="text" contenteditable spellcheck="false">${title}</div><div class=buttons><div class="color"><img class="color" src="./images/color.png"/></div><div class="complete"><img src="./images/completed.png"/></div>
             <div class="remove"><img src="./images/delete-512.png"/></div></div>
         </div>`
@@ -75,10 +91,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 _id: node.getAttribute("data-id"),
                 completed: node.getAttribute("class").endsWith('completed')
             })
-            console.log(node.classList.contains('completed'))
-            if(node.classList.contains('completed')){
-                document.querySelector('.done').appendChild(node)
-            }else{
+            if (node.classList.contains('completed')) {
+                document.querySelector('.finished').appendChild(node)
+            } else {
                 document.querySelector('main').appendChild(node);
             }
         })
@@ -147,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 let newTaskNode = createNodeFromString(newTaskHtmlString)
                 document.querySelector('main').appendChild(newTaskNode)
-                console.log(newTaskNode)
                 event.target.value = '';
 
                 addRemoveListener(newTaskNode);

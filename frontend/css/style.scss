@@ -6,21 +6,26 @@
 }
 
 body {
-    font-size: 1.5em;
+    font-size: 1.2em;
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    min-height: 50vh;
     background-image: url("../images/chess-king-1372062558Apo.jpg");
     background-size: cover;
+
+    @media (max-width: 900px) {
+        font-size: 0.7em;
+    }
 }
 
 header {
+    border-radius: 0.4em;
+    margin: 1em;
     background: rgba(255, 255, 255, 0.089);
     display: flex;
     justify-content: center;
-    padding: 1.5em;
+    padding: 1em;
+    margin-bottom: 1em;
 
     input {
         all: unset;
@@ -31,68 +36,94 @@ header {
     }
 }
 
+::placeholder {
+    color: rgb(255, 161, 219);
+}
+
+::-webkit-scrollbar {
+    width: 0.7em;
+    border-radius: 1em;
+    background-color: rgba(173, 5, 165, 0.267);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 1em;
+    background-color: rgba(255, 65, 255, 0.774);
+    background-image: -webkit-linear-gradient(90deg,
+        transparent,
+        rgba(41, 0, 33, 0.822) 50%,
+        transparent,
+        transparent);
+}
+.picker_wrapper layout_default popup popup_botom{
+    position: absolute;
+    top:0;
+}
+
 .board {
     display: flex;
     flex-direction: row;
+    justify-content: stretch;
+    align-items: flex-start;
 
-    @media (max-width: 1200px) {
+    @media (max-width: 680px) {
         margin: 1em;
+        flex-wrap: wrap;
+    }
+
+    @media (max-width: 550px) {
+        align-items: center;
         flex-direction: column;
     }
 
-    ::-webkit-scrollbar {
-        width: 12px;
-        border-radius: 1em;
-        background-color: rgba(173, 5, 165, 0.267);
-    }
-
-    ::-webkit-scrollbar-thumb {
-        border-radius: 1em;
-        ;
-        background-color: rgba(255, 65, 255, 0.774);
-        background-image: -webkit-linear-gradient(90deg,
-            transparent,
-            rgba(41, 0, 33, 0.822) 50%,
-            transparent,
-            transparent)
-    }
-
-    section,
-    main {
-        margin: 0.4em;
-        padding: 0.5em;
-        border-radius: 0.5em;
-        border: 0.12em #ff40ff3d solid;
-        background-color: rgba(43, 0, 46, 0.637);
-        flex: 1 25%;
-        color: rgb(255, 161, 219);
+    section {
         display: flex;
-        justify-content: center;
-        flex-wrap: wrap-reverse;
-        align-items: flex-end;
-        align-content: flex-end;
-        height: 100%;
-        max-height: 83vh;
-        overflow-y: auto;
-
+        margin-left: 0.3em;
+        flex-direction: column;
+        border-radius: 0.5em;
+        border: 0.1em solid #fd00fd27;
+        background-color: rgba(43, 0, 46, 0.425);
 
         h2 {
-            position: sticky;
-            top: 0;
             all: unset;
-            font-size: 1.5em;
-            padding: 0.5em;
-            border-radius: 0.4em;
-            background-color: rgba(17, 0, 16, 0.801);
-            order: 1;
-            width: 100%;
+            padding: 0.7em;
+            font-size: 1.2em;
+            border-top-left-radius:0.5em ;
+            border-top-right-radius: 0.5em;
+            
+            color: rgb(255, 161, 219);
+            background: linear-gradient(0deg, rgba(255, 0, 179, 0.288) 0%, 5%, rgba(19, 0, 17, 0.699) 100%);
+        
+            min-width: 14em;
+            order: -1;
+        }
+    }
+
+    .toDoTasks,
+    .inProcess,
+    .finished,
+    main {
+        margin: 1.5em;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        color: rgb(255, 161, 219);
+        display: flex;
+        flex-direction: column-reverse;
+        height: 100%;
+        max-height: 65vh;
+        overflow-y: auto;
+
+        @media (max-width: 550px) {
+            align-items: center;
+            flex-direction: column;
+            max-height: 50vh;
         }
     }
 
     .done {
         .completed {
             order: -1;
-            opacity: 0.6;
+            opacity: 0.7;
 
             .text {
                 text-decoration: line-through;
@@ -102,22 +133,24 @@ header {
 }
 
 .task {
-    margin: 1em;
-    padding: 0.5em;
+    position: relative;
+    margin: 0.3em;
+    padding: 0.2em;
     background: rgba(37, 0, 48, 0.644);
     color: rgb(255, 184, 240);
-    min-width: 16em;
+    min-width: 15.5em;
     border-radius: 0.4em;
-    border-width: 0.2em;
+    border-width: 0.15em;
     border-style: solid;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 
     .text {
+        text-align: center;
         padding: 0.5em;
         margin-bottom: 1em;
-        max-width: 8em;
+        max-width: 12em;
 
         &:focus {
             outline: 0px solid transparent;
@@ -144,7 +177,6 @@ header {
     img {
         height: 2em;
         margin: 0.2em;
-
         &:active {
             height: 3em;
         }
