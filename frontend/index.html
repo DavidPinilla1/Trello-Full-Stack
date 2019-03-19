@@ -7,9 +7,9 @@
     <link rel="icon" type="image/png" href="./images/favicon.png">
     <title>Tareas Full Stack</title>
     <link rel="stylesheet" href="./css/normalize.css">
-    <link rel="stylesheet" href="./css/style.css">
     <script src="./node_modules/vanilla-picker/dist/vanilla-picker.js"></script>
     <script src="main.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
 
 </head>
 
@@ -19,23 +19,23 @@
 
     </header>
     <section class="board">
-        <section class="porductBackLog">
+        <section>
             <h2>Product BackLog</h2>
-            <main></main>
+            <main class="porductBackLog" ondrop="drop(event)" ondragover="allowDrop(event)"></main>
         </section>
-        <section class="toDo" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <section >
             <h2>To do</h2>
-            <div class="toDoTasks"></div>
-        </section>
-        <section class="doing" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <h2>Doing</h2>
-            <div class="inProcess">
-
+            <div class="toDo" ondrop="drop(event)" ondragover="allowDrop(event)">
             </div>
         </section>
-        <section class="done">
+        <section>
+            <h2>Doing</h2>
+            <div class="doing" ondrop="drop(event)" ondragover="allowDrop(event)">
+            </div>
+        </section>
+        <section>
             <h2>Done</h2>
-            <div class="finished"></div>
+            <div class="done" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         </section>
     </section>
 </body>

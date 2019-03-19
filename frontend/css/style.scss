@@ -11,16 +11,15 @@ body {
     font-family: 'Ubuntu', sans-serif;
     min-height: 50vh;
     background-image: url("../images/chess-king-1372062558Apo.jpg");
-    background-size: cover;
 
     @media (max-width: 900px) {
-        font-size: 0.7em;
+        font-size: 0.9em;
     }
 }
 
 header {
     border-radius: 0.4em;
-    margin: 1em;
+    margin: 0.5em;
     background: rgba(255, 255, 255, 0.089);
     display: flex;
     justify-content: center;
@@ -29,8 +28,8 @@ header {
 
     input {
         all: unset;
-        color: rgb(255, 187, 246);
-        background: linear-gradient(0deg, rgba(27, 0, 19, 0.164) 0%, 30%, rgba(255, 105, 243, 0.281) 100%);
+        color: rgb(255, 112, 236);
+        background: linear-gradient(0deg, rgba(27, 0, 19, 0.164) 0%, 20%, rgba(255, 105, 243, 0.281) 100%);
         margin: 0.3em;
         padding: 0.3em;
     }
@@ -38,6 +37,8 @@ header {
 
 ::placeholder {
     color: rgb(255, 161, 219);
+    font-style: italic;
+    font-size: 0.8em;
 }
 
 ::-webkit-scrollbar {
@@ -55,23 +56,32 @@ header {
         transparent,
         transparent);
 }
-.picker_wrapper layout_default popup popup_botom{
-    position: absolute;
-    top:0;
+
+.picker_wrapper {
+    max-width: 18vw;
+
+    @media (max-width: 680px) {
+        max-width: 45vw;
+    }
+}
+
+.popup.popup_bottom {
+    top: unset;
+    left: unset;
+}
+
+.picker_wrapper.popup {
+    position: fixed;
 }
 
 .board {
     display: flex;
     flex-direction: row;
-    justify-content: stretch;
+    justify-content: space-between;
     align-items: flex-start;
 
-    @media (max-width: 680px) {
-        margin: 1em;
-        flex-wrap: wrap;
-    }
 
-    @media (max-width: 550px) {
+    @media (max-width: 680px) {
         align-items: center;
         flex-direction: column;
     }
@@ -79,31 +89,37 @@ header {
     section {
         display: flex;
         margin-left: 0.3em;
+        margin-bottom: 0.3em;
         flex-direction: column;
         border-radius: 0.5em;
-        border: 0.1em solid #fd00fd27;
-        background-color: rgba(43, 0, 46, 0.425);
+        border: 0.15em solid #25003685;
+        background-color: rgba(60, 0, 65, 0.342);
+        width: 24vw;
+
+        @media (max-width: 680px) {
+            justify-content: center;
+            width: 65vw;
+        }
 
         h2 {
             all: unset;
             padding: 0.7em;
             font-size: 1.2em;
-            border-top-left-radius:0.5em ;
-            border-top-right-radius: 0.5em;
-            
+            border-top-left-radius: 0.3em;
+            border-top-right-radius: 0.3em;
+
             color: rgb(255, 161, 219);
             background: linear-gradient(0deg, rgba(255, 0, 179, 0.288) 0%, 5%, rgba(19, 0, 17, 0.699) 100%);
-        
-            min-width: 14em;
+
             order: -1;
         }
     }
 
-    .toDoTasks,
-    .inProcess,
-    .finished,
+    .toDo,
+    .doing,
+    .done,
     main {
-        margin: 1.5em;
+        margin: 0.5em 0 0.8em 0.5em;
         padding: 0.5em;
         border-radius: 0.5em;
         color: rgb(255, 161, 219);
@@ -112,11 +128,11 @@ header {
         height: 100%;
         max-height: 65vh;
         overflow-y: auto;
+        width: 95%;
 
-        @media (max-width: 550px) {
+        @media (max-width: 680px) {
             align-items: center;
-            flex-direction: column;
-            max-height: 50vh;
+            max-height: 60vh;
         }
     }
 
@@ -133,24 +149,25 @@ header {
 }
 
 .task {
-    position: relative;
     margin: 0.3em;
     padding: 0.2em;
-    background: rgba(37, 0, 48, 0.644);
-    color: rgb(255, 184, 240);
-    min-width: 15.5em;
+    background: rgba(180, 45, 221, 0.274);
+    color: #ff9dea;
     border-radius: 0.4em;
-    border-width: 0.15em;
+    border-width: 0.1em;
     border-style: solid;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    width: 95%;
+
+    &:hover {
+        background: rgba(49, 0, 65, 0.808);
+    }
 
     .text {
         text-align: center;
         padding: 0.5em;
-        margin-bottom: 1em;
-        max-width: 12em;
+        margin-bottom: 0.5em;
 
         &:focus {
             outline: 0px solid transparent;
@@ -163,38 +180,69 @@ header {
             display: block;
             height: 0.2em;
             width: 0;
+            margin-top: 0.2em;
             background-color: #ffb0ff;
             transition: all ease-in-out 500ms;
         }
 
         &:focus::after {
-            margin-top: 0.2em;
+            margin-top: 0.3em;
             border: 0;
             width: 100%;
         }
     }
 
-    img {
-        height: 2em;
-        margin: 0.2em;
-        &:active {
-            height: 3em;
+    .subtasks p {
+        padding-left: 0.8em;
+        text-align: left;
+    }
+
+    .addSubTask {
+        display: flex;
+        flex-direction: row;
+        padding-bottom: 0.6em;
+
+        :first-child {
+            all: unset;
+            border: 0px;
+            width: 100%;
+            padding: 0.3em;
+        }
+
+        img {
+            margin-right: 1em;
+            width: 1.5em;
+            height: 1.5em;
+            transition: all ease-in-out 500ms;
+
+            &:hover {
+                margin-bottom: 1em;
+                margin-right: 0.8em;
+                width: 2em;
+                height: 2em;
+            }
+        }
+    }
+
+    .buttons img {
+        width: 2.5vw;
+        transition: all ease-in-out 500ms;
+
+        @media (max-width: 900px) {
+
+            width: 2.4em;
+        }
+
+        &:hover {
+            width: 4vw;
         }
     }
 
     .buttons {
         order: 1;
         display: flex;
-        margin: 0.2em;
-        padding: 0.3em 0.6em;
+        padding: 0.3em;
+        justify-content: space-around;
     }
 
-}
-
-.completed {
-    order: -1;
-
-    .text {
-        text-decoration: line-through;
-    }
 }

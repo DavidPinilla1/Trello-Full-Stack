@@ -27,7 +27,8 @@ app.post('/tasks', (req, res) => {
         title: req.body.title,
         content: null,
         color: null,
-        completed: false
+        completed: false,
+        status:'porductBackLog'
     })
     task.save((err, task) => {
         if (err) console.error(err)
