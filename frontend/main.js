@@ -37,6 +37,7 @@ function drop(ev) {
     var data = ev.dataTransfer.getData("id");
     let finished = false;
     if (ev.target.className === 'done') finished = true;
+    if(finished)document.querySelector(`[data-id="${data}"] `).classList.add('completed')
     if (ev.target.className === 'porductBackLog' || ev.target.className === 'toDo' || ev.target.className === 'doing' || ev.target.className === 'done') {
         ev.target.appendChild(document.querySelector(`[data-id="${data}"] `));
 
@@ -109,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         _id: task._id,
                         color: `rgba(${rgba.slice(1)})`
                     })
-                   // document.querySelector(`[data-id="${task._id}"] .color`).removeAttribute("style")
                 }
             })
         })

@@ -18,20 +18,36 @@ body {
 }
 
 header {
-    border-radius: 0.4em;
-    margin: 0.5em;
-    background: rgba(255, 255, 255, 0.089);
     display: flex;
-    justify-content: center;
+    border-radius: 0.4em;
+    background: rgba(255, 255, 255, 0.089);
     padding: 1em;
     margin-bottom: 1em;
-
+    justify-content: space-between;
+    
+    @media (max-width: 700px) {
+        flex-direction: column;
+        align-items: center
+    }
+    img{
+        display: block;
+        opacity: 0.8;
+        width: 410px;
+        height: 60px;
+    }
     input {
         all: unset;
+        max-width: 50vw;
         color: rgb(255, 112, 236);
         background: linear-gradient(0deg, rgba(27, 0, 19, 0.164) 0%, 20%, rgba(255, 105, 243, 0.281) 100%);
-        margin: 0.3em;
-        padding: 0.3em;
+       // background-color: rgba(56, 0, 35, 0.562);
+        margin: 0.6em 10em 0 0;
+        padding: 0.4em;
+        max-height: 3vh;
+        
+    @media (max-width: 700px) {
+        margin: 0;
+    }
     }
 }
 
@@ -216,7 +232,7 @@ header {
             transition: all ease-in-out 500ms;
 
             &:hover {
-                margin-bottom: 1em;
+                margin-bottom: 0.15em;
                 margin-right: 0.8em;
                 width: 2em;
                 height: 2em;
@@ -234,7 +250,7 @@ header {
         }
 
         &:hover {
-            width: 4vw;
+            width: 3.5vw;
         }
     }
 
