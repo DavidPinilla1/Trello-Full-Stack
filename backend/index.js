@@ -3,9 +3,10 @@ const app = express();
 const fs = require('fs');
 const port = Number(process.argv[2]) || 3000;
 const mongoose = require('mongoose');
-
+const morgan = require('morgan')
 const Task = require('./models/task');
 app.use(express.json());
+app.use(morgan('tiny'))
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -25,13 +26,10 @@ app.get('/tasks', (req, res) => {
 app.post('/tasks', (req, res) => {
     const task = new Task({
         title: req.body.title,
-        content: null,
-        color: null,
-        completed: false,
-        status:'porductBackLog'
+        list: 'porductBackLog'
     })
     task.save((err, task) => {
-        if (err) console.error(err)
+        if (err) res.status(500).json(err)
         res.status(201).json({
             success: true,
             task,
@@ -39,12 +37,13 @@ app.post('/tasks', (req, res) => {
         })
     })
 });
+//
 app.delete('/tasks/:id', (req, res) => {
     try {
         Task.findByIdAndDelete(req.params.id, (err, task) => {
-            if (err) res.status(400).send(err)
+            if (err) res.status(500).send(err)
             res.status(200).json({
-                message:'item successfully deleted.',
+                message: 'item successfully deleted.',
                 task
             })
         })
@@ -55,12 +54,12 @@ app.delete('/tasks/:id', (req, res) => {
         })
     }
 });
-app.put('/tasks/:id',(req, res) => {
+app.put('/tasks/:id', (req, res) => {
     try {
-        Task.findByIdAndUpdate(req.params.id,req.body,(err,task)=>{
-            if(err)console.error(err)
+        Task.findByIdAndUpdate(req.params.id, req.body, (err, task) => {
+            if (err) console.error(err)
             res.status(200).json({
-                message:'item uccessfully updated.',
+                message: 'item uccessfully updated.',
                 task
             })
         })

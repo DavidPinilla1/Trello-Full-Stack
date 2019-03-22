@@ -1,13 +1,45 @@
 const baseApiUrl = 'http://localhost:3000';
+const subTasks = {}
+const WhenDropAddToDOMandUpdateToBackend = (data, ev) => {
+    const list = ev.target.className;
+    const list2 = ev.target.parentElement.className;
+    const list3 = ev.target.parentElement.parentElement.className;
+    const list4 = ev.target.parentElement.parentElement.parentElement.className;
+    if (list === 'porductBackLog' || list === 'toDo' || list === 'doing' || list === 'done') {
+        ev.target.appendChild(document.querySelector(`[data-id="${data}"] `));
 
-let updateToBackend = ({
+        updateToBackend({
+            _id: data,
+            list: list
+        })
+    } else if (list2 === 'porductBackLog' || list2 === 'toDo' || list2 === 'doing' || list2 === 'done') {
+        ev.target.parentElement.appendChild(document.querySelector(`[data-id="${data}"] `));
+        updateToBackend({
+            _id: data,
+            list: list2
+        })
+    } else if (list3 === 'porductBackLog' || list3 === 'toDo' || list3 === 'doing' || list3 === 'done') {
+        ev.target.parentElement.parentElement.appendChild(document.querySelector(`[data-id="${data}"] `));
+        updateToBackend({
+            _id: data,
+            list: list3
+        })
+    } else if (list4 === 'porductBackLog' || list4 === 'toDo' || list4 === 'doing' || list4 === 'done') {
+        ev.target.parentElement.parentElement.parentElement.appendChild(document.querySelector(`[data-id="${data}"] `));
+        updateToBackend({
+            _id: data,
+            list: list4
+        })
+    }
+}
+const updateToBackend = ({
     _id,
     title,
     color,
-    status,
-    completed,
+    content,
+    list
 }) => {
-    fetch(baseApiUrl + '/tasks/' + _id, {
+    return fetch(baseApiUrl + '/tasks/' + _id, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -17,8 +49,8 @@ let updateToBackend = ({
                 _id,
                 title,
                 color,
-                status,
-                completed
+                content,
+                list
             })
         })
         .then(response => response)
@@ -34,40 +66,8 @@ let drag = (ev) => {
 
 function drop(ev) {
     ev.preventDefault();
-    var data = ev.dataTransfer.getData("id");
-    let finished = false;
-    if (ev.target.className === 'done') finished = true;
-    if(finished)document.querySelector(`[data-id="${data}"] `).classList.add('completed')
-    if (ev.target.className === 'porductBackLog' || ev.target.className === 'toDo' || ev.target.className === 'doing' || ev.target.className === 'done') {
-        ev.target.appendChild(document.querySelector(`[data-id="${data}"] `));
-
-        updateToBackend({
-            _id: data,
-            completed: finished,
-            status: ev.target.className
-        })
-    } else if (ev.target.parentElement.className === 'porductBackLog' || ev.target.parentElement.className === 'toDo' || ev.target.parentElement.className === 'doing' || ev.target.parentElement.className === 'done') {
-        ev.target.parentElement.appendChild(document.querySelector(`[data-id="${data}"] `));
-        updateToBackend({
-            _id: data,
-            completed: finished,
-            status: ev.target.parentElement.className
-        })
-    } else if (ev.target.parentElement.parentElement.className === 'porductBackLog' || ev.target.parentElement.parentElement.className === 'toDo' || ev.target.parentElement.parentElement.className === 'doing' || ev.target.parentElement.parentElement.className === 'done') {
-        ev.target.parentElement.parentElement.appendChild(document.querySelector(`[data-id="${data}"] `));
-        updateToBackend({
-            _id: data,
-            completed: finished,
-            status: ev.target.parentElement.parentElement.className
-        })
-    } else if (ev.target.parentElement.parentElement.parentElement.className === 'porductBackLog' || ev.target.parentElement.parentElement.parentElement.className === 'toDo' || ev.target.parentElement.parentElement.parentElement.className === 'doing' || ev.target.parentElement.parentElement.parentElement.className === 'done') {
-        ev.target.parentElement.parentElement.parentElement.appendChild(document.querySelector(`[data-id="${data}"] `));
-        updateToBackend({
-            _id: data,
-            completed: finished,
-            status: ev.target.parentElement.parentElement.parentElement.className
-        })
-    }
+    const data = ev.dataTransfer.getData("id");
+    WhenDropAddToDOMandUpdateToBackend(data, ev)
 }
 document.addEventListener('DOMContentLoaded', function () {
     const getTaskFromAPIRest = () => {
@@ -79,24 +79,26 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(console.error)
     }
+    const subTasks = {}
     const appendTasks = tasksArray => {
-        let tasksdiv = document.querySelector('main');
         tasksArray.forEach(task => {
             const taskNode = createTaskNode(task);
-            document.querySelector('.' + taskNode.getAttribute('status')).appendChild(taskNode)
-            taskNode.querySelector('.subtasks input').addEventListener('keyup', event => {
-                if (event.keyCode === 13) {
-                    addSubTask(taskNode, event.target.value)
-                    event.target.value = '';
-                }
+            document.querySelector('.' + taskNode.getAttribute('list')).appendChild(taskNode)
+            addContentListeners(taskNode)
+            if (Object.values(task).indexOf(task.content) > -1) {
+                subTasks[task._id] = task.content
+                task.content.forEach(subTaskObject => {
+                    let subTaskNode = document.createElement('div');
+                    console.log(subTaskObject)
+                    // if (task.content[0].subTask) {
+                    subTaskNode.innerHTML = `<p contenteditable="true" data-subid="sacalo del backend" data-id="${subTaskObject._id}">◻️ - ${subTaskObject.subTask}</p>`;
+                    taskNode.querySelector('.subtasks').appendChild(subTaskNode.firstChild)
+                    // }
 
-            })
-            taskNode.querySelector('.subtasks input').addEventListener('change', event => {
-                taskNode.querySelector('.subtasks img').addEventListener('click', () => {
-                    addSubTask(taskNode, event.target.value)
-                    event.target.value = '';
                 })
-            })
+            }
+
+
             new Picker({
                 parent: document.querySelector(`[data-id="${task._id}"] .color`),
                 popup: "bottom",
@@ -122,32 +124,43 @@ document.addEventListener('DOMContentLoaded', function () {
         addTitleListener(taskNode);
         return taskNode;
     }
-    let createTemplateHtmlString = ({
+    const createTemplateHtmlString = ({
             _id,
             title,
             content,
             color,
-            completed,
-            status,
+            list,
         }) =>
-        `<div class="task ${completed ? 'completed': ''}" data-id="${_id}" style="border-color: ${color}" draggable="true" ondragstart="drag(event)" status=${status}>
+        `<div class="task" data-id="${_id}" style="border-color: ${color}" draggable="true" ondragstart="drag(event)" list=${list}>
             <div class="text" contenteditable spellcheck="false">${title}</div><div class="subtasks" data-contsent="${content}">
-            <div class="addSubTask"><input type="text" placeholder="Add subtask" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Add subtask'"/><img src="./images/add.png" alt="add"></div></div>
-            <div class=buttons><div class="color"><img class="color" src="./images/color.png"/></div><div class="complete"><img src="./images/completed.png"/></div>
-            <div class="remove"><img src="./images/delete-512.png"/></div></div>
+            <div class="addSubTask">
+                <input type="text" placeholder="Add subtask" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Add subtask'"/>
+                <img class="add" src="./images/add.png" alt="add"></div>
+            </div>
+            <div class=buttons>
+                <div class="color">
+                    <img class="color" src="./images/color.png"/>
+                </div>
+                <div class="complete">
+                    <img src="./images/completed.png"/>
+                </div>
+                <div class="remove">
+                    <img src="./images/delete-512.png"/>
+                </div>
+            </div>
         </div>`
-    let createNodeFromString = string => {
+    const createNodeFromString = string => {
         let divNode = document.createElement('div');
         divNode.innerHTML = string;
         return divNode.firstChild;
     }
-    let addRemoveListener = node => {
+    const addRemoveListener = node => {
         node.querySelector('.remove').addEventListener('click', event => {
             node.remove();
             deleteTaskToBackend(node.getAttribute("data-id"))
         })
     }
-    let addCompleteListener = node => {
+    const addCompleteListener = node => {
         node.querySelector('.complete').addEventListener('click', event => {
             node.classList.toggle('completed')
             let state = ''
@@ -156,8 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else state = 'porductBackLog'
             updateToBackend({
                 _id: node.getAttribute("data-id"),
-                completed: node.getAttribute("class").endsWith('completed'),
-                status: state
+                list: state
             })
             if (node.classList.contains('completed')) {
                 document.querySelector('.done').appendChild(node)
@@ -166,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
     }
-    let addTitleListener = node => {
+    const addTitleListener = node => {
         node.querySelector('.text').addEventListener('blur', event => {
             let title = node.querySelector('.text').innerHTML;
             updateToBackend({
@@ -175,7 +187,22 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         })
     }
-    let saveTaskToBackend = title => {
+    const addContentListeners = node => {
+        node.querySelector('.subtasks input').addEventListener('keyup', event => {
+            if (event.keyCode === 13) {
+                if (event.target.value.length > 0) addSubTask(node, event.target.value)
+                event.target.value = '';
+            }
+
+        })
+        node.querySelector('.subtasks input').addEventListener('change', event => {
+            node.querySelector('.subtasks img').addEventListener('click', () => {
+                if (event.target.value.length > 0) addSubTask(node, event.target.value)
+                event.target.value = '';
+            })
+        })
+    }
+    const saveTaskToBackend = title => {
         return fetch(baseApiUrl + '/tasks', {
                 method: 'POST',
                 headers: {
@@ -184,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify({
                     title,
-                    status: 'porductBackLog'
+                    list: 'porductBackLog'
                 })
             })
             .then(response => (response.json()))
@@ -198,7 +225,29 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response)
             .catch(console.error)
     }
-
+    const addSubTask = (parentNode, subTask) => {
+        let subTaskNode = document.createElement('div');
+        const id = parentNode.getAttribute("data-id");
+        if (subTasks[`${id}`]) {
+            let subTasksArr = subTasks[`${id}`]
+            subTasks[`${id}`].push({
+                subTask,
+                completed: false
+            })
+            updateToBackend({
+                _id: id,
+                content: subTasksArr
+            })
+        } else updateToBackend({
+            _id: id,
+            content: [{
+                subTask,
+                completed: false
+            }]
+        })
+        subTaskNode.innerHTML = `<p contenteditable="true" data-id="sacalo del backend">◻️ - ${subTask}<img src="./images/completed.png"/> <img src="./images/delete-512.png"/></p>`;
+        parentNode.querySelector('.subtasks').appendChild(subTaskNode.firstChild)
+    }
     let inputNode = document.querySelector('header input');
     inputNode.addEventListener('keyup', function (event) {
         if (event.keyCode === 13) {
@@ -207,28 +256,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 let newTaskHtmlString = createTemplateHtmlString({
                     _id: res.task._id,
                     title: title,
-                    status: 'porductBackLog'
+                    list: 'porductBackLog'
                 })
                 let newTaskNode = createNodeFromString(newTaskHtmlString)
                 document.querySelector('main').appendChild(newTaskNode)
                 event.target.value = '';
-
+                subTasks[res.task._id] = []
                 addRemoveListener(newTaskNode);
                 addCompleteListener(newTaskNode);
                 addTitleListener(newTaskNode);
-                newTaskNode.querySelector('.subtasks input').addEventListener('keyup', event => {
-                    if (event.keyCode === 13) {
-                        addSubTask(newTaskNode, event.target.value)
-                        event.target.value = '';
-                    }
-    
-                })
-                newTaskNode.querySelector('.subtasks input').addEventListener('change', event => {
-                    newTaskNode.querySelector('.subtasks img').addEventListener('click', () => {
-                        addSubTask(newTaskNode, event.target.value)
-                        event.target.value = '';
-                    })
-                })
+                addContentListeners(newTaskNode)
                 new Picker({
                     parent: document.querySelector(`[data-id="${res.task._id}"] .color`),
                     popup: "botom",
@@ -247,11 +284,6 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         }
     })
-    let addSubTask = (parentNode, subTask) => {
-        let subTaskNode = document.createElement('div');
-        subTaskNode.innerHTML = `<p contenteditable="true">◻️  ${subTask}</p>`;
-        parentNode.querySelector('.subtasks').appendChild(subTaskNode.firstChild)
-    }
     getTaskFromAPIRest();
 
 });

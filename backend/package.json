@@ -11,10 +11,12 @@
   "author": "David Pinilla",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.5",
     "express": "^4.16.4",
     "mongoose": "^5.4.19"
   },
   "devDependencies": {
+    "morgan": "^1.9.1",
     "nodemon": "^1.18.10"
   }
 }

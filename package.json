@@ -8,7 +8,7 @@
     "start:back": "cd ./backend && npm start",
     "start": "concurrently \"npm run start:front\" \"npm run start:back\"",
     "postinstall": "cd frontend && npm i && cd ../backend && npm i"
-},
+  },
   "author": "David Pinilla",
   "license": "ISC",
   "dependencies": {

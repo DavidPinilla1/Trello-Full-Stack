@@ -37,6 +37,12 @@ header img {
   width: 410px;
   height: 60px;
 }
+header button {
+  all: unset;
+  background-color: rgba(2, 252, 189, 0.329);
+  margin: 0.2em;
+  padding: 0.4em;
+}
 header input {
   all: unset;
   max-width: 50vw;
@@ -119,7 +125,7 @@ header input {
 .board section h2 {
   all: unset;
   padding: 0.7em;
-  font-size: 1.2em;
+  font-size: 1.4em;
   border-top-left-radius: 0.3em;
   border-top-right-radius: 0.3em;
   color: #ffa1db;
@@ -150,11 +156,7 @@ header input {
     max-height: 60vh;
   }
 }
-.board .done .completed {
-  order: -1;
-  opacity: 0.7;
-}
-.board .done .completed .text {
+.board .done {
   text-decoration: line-through;
 }
 
@@ -163,20 +165,24 @@ header input {
   padding: 0.2em;
   background: rgba(180, 45, 221, 0.274);
   color: #ff9dea;
-  border-radius: 0.4em;
-  border-width: 0.1em;
+  border-radius: 0.5em;
   border-style: solid;
   display: flex;
   flex-direction: column;
   width: 95%;
+  transition: all ease-in-out 500ms;
 }
 .task:hover {
   background: rgba(49, 0, 65, 0.808);
 }
 .task .text {
+  border-top-left-radius: 0.3em;
+  border-top-right-radius: 0.3em;
   text-align: center;
   padding: 0.5em;
   margin-bottom: 0.5em;
+  font-size: 1.2em;
+  background-color: rgba(54, 0, 52, 0.295);
 }
 .task .text:focus {
   outline: 0px solid transparent;
@@ -198,8 +204,28 @@ header input {
   width: 100%;
 }
 .task .subtasks p {
+  font-size: 0.9em;
   padding-left: 0.8em;
   text-align: left;
+}
+.task .subtasks p:focus {
+  outline: 0px solid transparent;
+}
+.task .subtasks p::after {
+  content: "";
+  border-radius: 1em;
+  align-items: center;
+  display: block;
+  height: 0.2em;
+  width: 0;
+  margin-top: 0.2em;
+  background-color: #ffb0ff;
+  transition: all ease-in-out 500ms;
+}
+.task .subtasks p:focus::after {
+  margin-top: 0.3em;
+  border: 0;
+  width: 95%;
 }
 .task .addSubTask {
   display: flex;
@@ -214,27 +240,22 @@ header input {
 }
 .task .addSubTask img {
   margin-right: 1em;
-  width: 1.5em;
-  height: 1.5em;
+  width: 2em;
+  height: 2em;
   transition: all ease-in-out 500ms;
 }
 .task .addSubTask img:hover {
   margin-bottom: 0.15em;
   margin-right: 0.8em;
-  width: 2em;
-  height: 2em;
+  width: 3em;
+  height: 3em;
 }
 .task .buttons img {
-  width: 2.5vw;
+  width: 2.5em;
   transition: all ease-in-out 500ms;
 }
-@media (max-width: 900px) {
-  .task .buttons img {
-    width: 2.4em;
-  }
-}
 .task .buttons img:hover {
-  width: 3.5vw;
+  width: 3.5em;
 }
 .task .buttons {
   order: 1;

@@ -8,7 +8,6 @@ const taskSchema = mongoose.Schema({
         completed: Boolean
     }],
     color: String,
-    status: String,
-    completed: Boolean
+    list: String
 })
 module.exports = mongoose.model('task', taskSchema)

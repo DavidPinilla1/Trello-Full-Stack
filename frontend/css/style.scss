@@ -24,30 +24,36 @@ header {
     padding: 1em;
     margin-bottom: 1em;
     justify-content: space-between;
-    
+
     @media (max-width: 700px) {
         flex-direction: column;
         align-items: center
     }
-    img{
+
+    img {
         display: block;
         opacity: 0.8;
         width: 410px;
         height: 60px;
+    }
+    button{
+        all:unset;
+        background-color: rgba(2, 252, 189, 0.329);
+        margin:0.2em;
+        padding: 0.4em;
     }
     input {
         all: unset;
         max-width: 50vw;
         color: rgb(255, 112, 236);
         background: linear-gradient(0deg, rgba(27, 0, 19, 0.164) 0%, 20%, rgba(255, 105, 243, 0.281) 100%);
-       // background-color: rgba(56, 0, 35, 0.562);
         margin: 0.6em 10em 0 0;
         padding: 0.4em;
         max-height: 3vh;
-        
-    @media (max-width: 700px) {
-        margin: 0;
-    }
+
+        @media (max-width: 700px) {
+            margin: 0;
+        }
     }
 }
 
@@ -120,7 +126,7 @@ header {
         h2 {
             all: unset;
             padding: 0.7em;
-            font-size: 1.2em;
+            font-size: 1.4em;
             border-top-left-radius: 0.3em;
             border-top-right-radius: 0.3em;
 
@@ -153,14 +159,7 @@ header {
     }
 
     .done {
-        .completed {
-            order: -1;
-            opacity: 0.7;
-
-            .text {
-                text-decoration: line-through;
-            }
-        }
+        text-decoration: line-through;
     }
 }
 
@@ -169,21 +168,24 @@ header {
     padding: 0.2em;
     background: rgba(180, 45, 221, 0.274);
     color: #ff9dea;
-    border-radius: 0.4em;
-    border-width: 0.1em;
+    border-radius: 0.5em;
     border-style: solid;
     display: flex;
     flex-direction: column;
     width: 95%;
-
+    transition: all ease-in-out 500ms;
     &:hover {
         background: rgba(49, 0, 65, 0.808);
     }
 
     .text {
+        border-top-left-radius: 0.3em;
+        border-top-right-radius: 0.3em;
         text-align: center;
         padding: 0.5em;
         margin-bottom: 0.5em;
+        font-size: 1.2em;
+        background-color: rgba(54, 0, 52, 0.295);
 
         &:focus {
             outline: 0px solid transparent;
@@ -209,8 +211,29 @@ header {
     }
 
     .subtasks p {
+        font-size: 0.9em;
         padding-left: 0.8em;
         text-align: left;
+        &:focus {
+            outline: 0px solid transparent;
+        }
+        &::after {
+            content: '';
+            border-radius: 1em;
+            align-items: center;
+            display: block;
+            height: 0.2em;
+            width: 0;
+            margin-top: 0.2em;
+            background-color: #ffb0ff;
+            transition: all ease-in-out 500ms;
+        }
+
+        &:focus::after {
+            margin-top: 0.3em;
+            border: 0;
+            width: 95%;
+        }
     }
 
     .addSubTask {
@@ -227,30 +250,27 @@ header {
 
         img {
             margin-right: 1em;
-            width: 1.5em;
-            height: 1.5em;
+            width: 2em;
+            height: 2em;
             transition: all ease-in-out 500ms;
+
 
             &:hover {
                 margin-bottom: 0.15em;
                 margin-right: 0.8em;
-                width: 2em;
-                height: 2em;
+                width: 3em;
+                height: 3em;
+
             }
         }
     }
 
     .buttons img {
-        width: 2.5vw;
+        width: 2.5em;
         transition: all ease-in-out 500ms;
 
-        @media (max-width: 900px) {
-
-            width: 2.4em;
-        }
-
         &:hover {
-            width: 3.5vw;
+            width: 3.5em;
         }
     }
 
@@ -260,5 +280,4 @@ header {
         padding: 0.3em;
         justify-content: space-around;
     }
-
 }
