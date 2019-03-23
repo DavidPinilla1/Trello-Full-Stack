@@ -89,11 +89,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 subTasks[task._id] = task.content
                 task.content.forEach(subTaskObject => {
                     let subTaskNode = document.createElement('div');
-                    console.log(subTaskObject)
-                    // if (task.content[0].subTask) {
                     subTaskNode.innerHTML = `<p contenteditable="true" data-subid="sacalo del backend" data-id="${subTaskObject._id}">◻️ - ${subTaskObject.subTask}</p>`;
                     taskNode.querySelector('.subtasks').appendChild(subTaskNode.firstChild)
-                    // }
 
                 })
             }
@@ -202,6 +199,11 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         })
     }
+    document.querySelector('.signUpButton').addEventListener('click', () => {
+        //console.log(document.querySelector("*:not(.register)").classList.toggle('modal-open'))
+        document.querySelector("body").classList.toggle('modal-open');
+        document.querySelector('.register').classList.toggle('visible')
+    })
     const saveTaskToBackend = title => {
         return fetch(baseApiUrl + '/tasks', {
                 method: 'POST',
@@ -245,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 completed: false
             }]
         })
-        subTaskNode.innerHTML = `<p contenteditable="true" data-id="sacalo del backend">◻️ - ${subTask}<img src="./images/completed.png"/> <img src="./images/delete-512.png"/></p>`;
+        subTaskNode.innerHTML = `<p contenteditable="true" data-id="sacalo del backend">◻️ - ${subTask}</p>`;
         parentNode.querySelector('.subtasks').appendChild(subTaskNode.firstChild)
     }
     let inputNode = document.querySelector('header input');

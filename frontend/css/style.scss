@@ -6,6 +6,10 @@
 }
 
 body {
+    display: flex;
+    top:5em;
+    flex-direction: column;
+    align-items: center;
     font-size: 1.2em;
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
@@ -17,6 +21,44 @@ body {
     }
 }
 
+.register, .login {
+    position: fixed;
+    border-radius: 0.5em;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(239, 187, 255);
+    z-index: -102;
+    margin: auto;
+    width: 100%;
+    height: 80vh;
+    transition: all ease-in-out 0.7s;
+    opacity:0;
+    
+    input{
+        all:unset;
+        border-radius: 0.5em;
+        color:white;
+        padding: 1em;
+        width: 55%;
+        margin:1em;
+        background-color: #200019;
+    }
+    
+}
+body :not(.register) *{
+    opacity: 1;
+    transition: opacity ease-in-out 0.7s;
+}
+body.modal-open :not(.register) *{
+    opacity: 0.2;
+}
+ 
+.visible {
+    display:inline-flex;
+    z-index: 99;
+    opacity: 1;
+}
+
 header {
     display: flex;
     border-radius: 0.4em;
@@ -24,6 +66,7 @@ header {
     padding: 1em;
     margin-bottom: 1em;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     @media (max-width: 700px) {
         flex-direction: column;
@@ -36,12 +79,21 @@ header {
         width: 410px;
         height: 60px;
     }
-    button{
-        all:unset;
-        background-color: rgba(2, 252, 189, 0.329);
-        margin:0.2em;
-        padding: 0.4em;
+
+    button {
+        all: unset;
+        border-radius: 0.15em;
+        background: linear-gradient(0deg, rgba(27, 0, 19, 0.842) 0%, 35%, rgba(255, 105, 243, 0.747) 100%);
+        color: #200019;
+        margin: 0.5em;
+        padding: 0.4em 1.2em 0.6em 1.2em;
+
+        &:active {
+            background: linear-gradient(0deg, rgba(255, 105, 243, 0.747) 0%, 65%, rgba(27, 0, 19, 0.842) 100%);
+
+        }
     }
+
     input {
         all: unset;
         max-width: 50vw;
@@ -58,7 +110,7 @@ header {
 }
 
 ::placeholder {
-    color: rgb(255, 161, 219);
+    color: rgb(255, 172, 223);
     font-style: italic;
     font-size: 0.8em;
 }
@@ -174,6 +226,7 @@ header {
     flex-direction: column;
     width: 95%;
     transition: all ease-in-out 500ms;
+
     &:hover {
         background: rgba(49, 0, 65, 0.808);
     }
@@ -214,9 +267,11 @@ header {
         font-size: 0.9em;
         padding-left: 0.8em;
         text-align: left;
+
         &:focus {
             outline: 0px solid transparent;
         }
+
         &::after {
             content: '';
             border-radius: 1em;
@@ -250,16 +305,16 @@ header {
 
         img {
             margin-right: 1em;
-            width: 2em;
-            height: 2em;
+            width: 1.5em;
+            height: 1.5em;
             transition: all ease-in-out 500ms;
 
 
             &:hover {
                 margin-bottom: 0.15em;
                 margin-right: 0.8em;
-                width: 3em;
-                height: 3em;
+                width: 2em;
+                height: 2em;
 
             }
         }

@@ -13,12 +13,21 @@
 
 </head>
 
-<body>
+<body >
     <header>
         <img src="./images/logo.png" alt="logo"/>
         <input type="text" placeholder="Add a new task" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Add a new task'">
-        <div class="register"><button>Login</button><button>Sing Up</button></div> 
+        <div ><button class="loginButton">Login</button><button class ="signUpButton">Sign Up</button></div> 
     </header>
+    <form class="register">
+        <input type="text" placeholder="Introduce your name">
+        <input type="text" placeholder="Introduce your lastname">
+        <input type="text" placeholder="Introduce your lastname">
+    </form>
+    <form class="login">
+        <input type="text" placeholder="Introduce your email">
+        <input type="text" placeholder="Introduce your password">
+    </form>
     <section class="board">
         <section>
             <h2>Product BackLog</h2>
