@@ -5,6 +5,7 @@ const WhenDropAddToDOMandUpdateToBackend = (data, ev) => {
     const list2 = ev.target.parentElement.className;
     const list3 = ev.target.parentElement.parentElement.className;
     const list4 = ev.target.parentElement.parentElement.parentElement.className;
+    const list5 = ev.target.parentElement.parentElement.parentElement.parentElement.className;
     if (list === 'porductBackLog' || list === 'toDo' || list === 'doing' || list === 'done') {
         ev.target.appendChild(document.querySelector(`[data-id="${data}"] `));
 
@@ -29,6 +30,12 @@ const WhenDropAddToDOMandUpdateToBackend = (data, ev) => {
         updateToBackend({
             _id: data,
             list: list4
+        })
+    }else if (list5 === 'porductBackLog' || list5 === 'toDo' || list5 === 'doing' || list5 === 'done') {
+        ev.target.parentElement.parentElement.parentElement.parentElement.appendChild(document.querySelector(`[data-id="${data}"] `));
+        updateToBackend({
+            _id: data,
+            list: list5
         })
     }
 }
@@ -200,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     }
     document.querySelector('.signUpButton').addEventListener('click', () => {
-        //console.log(document.querySelector("*:not(.register)").classList.toggle('modal-open'))
         document.querySelector("body").classList.toggle('modal-open');
         document.querySelector('.register').classList.toggle('visible')
     })
@@ -252,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     let inputNode = document.querySelector('header input');
     inputNode.addEventListener('keyup', function (event) {
-        if (event.keyCode === 13) {
+        if (event.keyCode === 13 && event.target.value.length > 0) {
             let title = event.target.value;
             saveTaskToBackend(title).then(res => {
                 let newTaskHtmlString = createTemplateHtmlString({
@@ -287,5 +293,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
     getTaskFromAPIRest();
-
 });

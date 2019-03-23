@@ -7,7 +7,7 @@
 
 body {
     display: flex;
-    top:5em;
+    top: 5em;
     flex-direction: column;
     align-items: center;
     font-size: 1.2em;
@@ -21,51 +21,134 @@ body {
     }
 }
 
-.register, .login {
+.register,
+.login {
     position: fixed;
-    border-radius: 0.5em;
+    border-radius: 0.7em;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(239, 187, 255);
+    background-color: rgba(224, 122, 255, 0.836);
+    padding: 1em;
     z-index: -102;
-    margin: auto;
-    width: 100%;
-    height: 80vh;
+    top: 15vh;
+    height: 0;
+    justify-content: space-evenly;
+    width: min-content;
     transition: all ease-in-out 0.7s;
-    opacity:0;
-    
-    input{
-        all:unset;
+    opacity: 0;
+
+    input:not([type="checkbox"]) {
+        all: unset;
+        display: inline-block;
         border-radius: 0.5em;
-        color:white;
+        color: rgb(255, 147, 246);
         padding: 1em;
-        width: 55%;
-        margin:1em;
-        background-color: #200019;
+        font-size: 1px;
+        background-color: #410033;
+        transition: all ease-in-out 0.7s;
     }
-    
+
 }
-body :not(.register) *{
+
+body :not(.register) :not(.terms) * {
     opacity: 1;
     transition: opacity ease-in-out 0.7s;
 }
-body.modal-open :not(.register) *{
+
+body.modal-open :not(.register):not(.terms) * {
     opacity: 0.2;
 }
- 
+
 .visible {
-    display:inline-flex;
+    display: inline-flex;
     z-index: 99;
+    height: 70vh;
     opacity: 1;
+
+    input:not([type="checkbox"]) {
+        all: unset;
+        display: inline-block;
+        border-radius: 0.5em;
+        color: rgb(255, 147, 246);
+        padding: 1em;
+        background-color: #27001ff5;
+        height: auto;
+    }
+}
+
+button {
+    all: unset;
+    border-radius: 0.15em;
+    background: linear-gradient(0deg, rgba(27, 0, 19, 0.842) 0%, 35%, rgba(255, 105, 243, 0.747) 100%);
+    color: #200019;
+    margin: 0.3em;
+    padding: 0.4em 1em 0.6em 1em;
+
+    &:active {
+        background: linear-gradient(0deg, rgba(255, 105, 243, 0.747) 0%, 65%, rgba(27, 0, 19, 0.842) 100%);
+
+    }
+}
+
+.terms {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    user-select: none;
+    text-align: justify;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+
+        &:checked~.checkmark {
+            background-color: rgb(177, 33, 243);
+
+            &:after {
+                display: block;
+            }
+        }
+    }
+
+    &:hover input~.checkmark {
+        background-color: rgb(238, 109, 255);
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: rgb(227, 197, 228);
+
+        &:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid rgb(249, 203, 255);
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+    }
 }
 
 header {
     display: flex;
-    border-radius: 0.4em;
-    background: rgba(255, 255, 255, 0.089);
-    padding: 1em;
-    margin-bottom: 1em;
+    width: 100%;
+    padding: 0.3em;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
 
     @media (max-width: 700px) {
@@ -75,23 +158,8 @@ header {
 
     img {
         display: block;
-        opacity: 0.8;
         width: 410px;
         height: 60px;
-    }
-
-    button {
-        all: unset;
-        border-radius: 0.15em;
-        background: linear-gradient(0deg, rgba(27, 0, 19, 0.842) 0%, 35%, rgba(255, 105, 243, 0.747) 100%);
-        color: #200019;
-        margin: 0.5em;
-        padding: 0.4em 1.2em 0.6em 1.2em;
-
-        &:active {
-            background: linear-gradient(0deg, rgba(255, 105, 243, 0.747) 0%, 65%, rgba(27, 0, 19, 0.842) 100%);
-
-        }
     }
 
     input {
@@ -99,7 +167,7 @@ header {
         max-width: 50vw;
         color: rgb(255, 112, 236);
         background: linear-gradient(0deg, rgba(27, 0, 19, 0.164) 0%, 20%, rgba(255, 105, 243, 0.281) 100%);
-        margin: 0.6em 10em 0 0;
+
         padding: 0.4em;
         max-height: 3vh;
 
@@ -320,19 +388,20 @@ header {
         }
     }
 
-    .buttons img {
-        width: 2.5em;
-        transition: all ease-in-out 500ms;
-
-        &:hover {
-            width: 3.5em;
-        }
-    }
 
     .buttons {
         order: 1;
         display: flex;
         padding: 0.3em;
         justify-content: space-around;
+
+        img {
+            width: 1.5em;
+            transition: all ease-in-out 500ms;
+
+            &:hover {
+                width: 2em;
+            }
+        }
     }
 }
