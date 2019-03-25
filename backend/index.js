@@ -59,7 +59,7 @@ app.delete('/tasks/:id', (req, res) => {
         })
     }
 });
-app.put('/tasks/:id', (req, res) => {
+app.patch('/tasks/:id', (req, res) => {
     try {
         Task.findByIdAndUpdate(req.params.id, req.body, (err, task) => {
             if (err) console.error(err)

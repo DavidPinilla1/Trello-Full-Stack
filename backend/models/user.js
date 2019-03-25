@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt=require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config=require('../config/config')
+const SALT_I = 10;
 const userSchema = mongoose.Schema({
     email: {
         type: String,

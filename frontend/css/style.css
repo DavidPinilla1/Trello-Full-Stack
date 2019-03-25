@@ -32,10 +32,16 @@ body {
   z-index: -102;
   top: 15vh;
   height: 0;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: min-content;
   transition: all ease-in-out 0.7s;
   opacity: 0;
+}
+.register .close,
+.login .close {
+  align-self: flex-end;
+  font-size: 0.8em;
+  border-radius: 80em;
 }
 .register input:not([type=checkbox]),
 .login input:not([type=checkbox]) {

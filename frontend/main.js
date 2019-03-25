@@ -47,7 +47,7 @@ const updateToBackend = ({
     list
 }) => {
     return fetch(baseApiUrl + '/tasks/' + _id, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -209,6 +209,37 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.signUpButton').addEventListener('click', () => {
         document.querySelector("body").classList.toggle('modal-open');
         document.querySelector('.register').classList.toggle('visible')
+    })
+   const name = document.querySelector('.register .close').addEventListener('click',()=>{
+        document.querySelector("body").classList.toggle('modal-open');
+        document.querySelector('.register').classList.toggle('visible')
+    })
+
+    document.querySelector('.register').addEventListener('submit',event=>{
+        
+        event.preventDefault()
+       const name = document.querySelector('.register .name').value
+       const lastname = document.querySelector('.register .lastname').value
+       const email = document.querySelector('.register .email').value
+       const password = document.querySelector('.register .password').value
+       fetch(baseApiUrl + '/users/register', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name,
+            lastname,
+            email,
+            password
+        })
+    })
+    .then(response => (response.json()))
+    .then(res => res)
+    .then(console.log)
+    .catch(console.error)
+        
     })
     const saveTaskToBackend = title => {
         return fetch(baseApiUrl + '/tasks', {
